@@ -20,7 +20,6 @@
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
   @keyframes breathe { 0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); } 50% { box-shadow: 0 0 0 10px rgba(239,68,68,0); } }
 
-  /* ── Header ── */
   .header {
     padding: 10px 20px; border-bottom: 1px solid #151a2e;
     display: flex; align-items: center; justify-content: space-between;
@@ -37,19 +36,14 @@
   .header-sub { font-size: 9px; color: #475569; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.8px; }
   .header-right { display: flex; align-items: center; gap: 14px; }
   .translating { font-size: 10px; color: #f59e0b; font-family: 'IBM Plex Mono', monospace; animation: pulse 1s infinite; }
+  .engine-label { font-size: 9px; color: #334155; font-family: 'IBM Plex Mono', monospace; }
   .rec-dot { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; animation: breathe 2s ease-in-out infinite; }
   .rec-time { font-size: 13px; font-family: 'IBM Plex Mono', monospace; color: #ef4444; font-weight: 600; }
 
-  /* ── Main Layout ── */
   .main { display: flex; flex: 1; overflow: hidden; }
 
-  /* ── Left Panel (Transcript) ── */
-  .left-panel {
-    flex: 1; display: flex; flex-direction: column;
-    border-right: 1px solid #151a2e;
-  }
+  .left-panel { flex: 1; display: flex; flex-direction: column; border-right: 1px solid #151a2e; }
 
-  /* Controls */
   .controls {
     padding: 10px 16px; border-bottom: 1px solid #151a2e;
     display: flex; align-items: center; gap: 8px;
@@ -87,7 +81,6 @@
   }
   .spacer { flex: 1; }
 
-  /* Transcript Columns */
   .transcript-header {
     display: flex; flex-shrink: 0; border-bottom: 1px solid #151a2e; background: #0c0e19;
   }
@@ -100,9 +93,7 @@
   .transcript-header .col:first-child { border-right: 1px solid #151a2e; }
 
   .transcript-body { display: flex; flex: 1; overflow: hidden; }
-  .col-en, .col-kr {
-    flex: 1; overflow-y: auto; padding: 0;
-  }
+  .col-en, .col-kr { flex: 1; overflow-y: auto; }
   .col-en { border-right: 1px solid #151a2e; }
 
   .entry-box {
@@ -111,47 +102,38 @@
   }
   .entry-box .time {
     font-size: 9px; color: #4a5568;
-    font-family: 'IBM Plex Mono', monospace;
-    margin-bottom: 3px;
+    font-family: 'IBM Plex Mono', monospace; margin-bottom: 3px;
   }
-  .entry-box .text {
-    font-size: 13px; line-height: 1.6;
-  }
+  .entry-box .text { font-size: 13px; line-height: 1.6; }
   .entry-box .text.en-text { color: #e2e8f0; font-family: 'IBM Plex Sans', sans-serif; }
   .entry-box .text.kr-text { color: #60a5fa; font-family: 'Noto Sans KR', sans-serif; }
   .entry-box .text.kr-direct { color: #34d399; font-family: 'Noto Sans KR', sans-serif; }
-  .entry-box .text.translating {
+  .entry-box .text.translating-text {
     font-size: 11px; color: #334155; font-style: italic;
     font-family: 'IBM Plex Mono', monospace;
   }
-  .interim-box {
-    padding: 10px 14px; font-size: 13px; color: #334155; font-style: italic;
-  }
+  .interim-box { padding: 10px 14px; font-size: 13px; color: #334155; font-style: italic; }
 
   .empty-state {
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
     height: 100%; gap: 10px; padding: 30px;
-    grid-column: 1 / -1;
   }
   .empty-icon { font-size: 36px; opacity: 0.2; }
   .empty-title { font-size: 13px; color: #475569; font-weight: 500; }
   .empty-desc { font-size: 11px; color: #334155; line-height: 1.8; text-align: center; }
 
-  /* ── Right Panel (Memo) ── */
   .right-panel {
     width: 340px; display: flex; flex-direction: column;
     background: #0c0f1c; flex-shrink: 0;
   }
   .memo-header {
     padding: 10px 16px; border-bottom: 1px solid #151a2e;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
   }
   .memo-title {
     font-size: 10px; color: #475569;
     font-family: 'IBM Plex Mono', monospace; letter-spacing: 1.5px;
-    text-transform: uppercase;
   }
   .memo-area {
     flex: 1; width: 100%; border: none; background: transparent;
@@ -165,7 +147,6 @@
     display: flex; gap: 6px; flex-shrink: 0;
   }
 
-  /* ── End Panel ── */
   .end-panel {
     position: fixed; inset: 0; background: #0c0f1aee;
     backdrop-filter: blur(12px); z-index: 100;
@@ -222,6 +203,7 @@
     </div>
   </div>
   <div class="header-right">
+    <span id="engineLabel" class="engine-label"></span>
     <span id="translatingLabel" class="translating hidden">TRANSLATING</span>
     <div id="recIndicator" class="hidden" style="display:flex;align-items:center;gap:8px;">
       <div class="rec-dot"></div>
@@ -231,13 +213,10 @@
   </div>
 </div>
 
-<!-- Main Layout -->
+<!-- Main -->
 <div class="main">
-
-  <!-- Left Panel: Transcript -->
+  <!-- Left: Transcript -->
   <div class="left-panel">
-
-    <!-- Controls -->
     <div class="controls">
       <button id="langBtn" class="lang-btn en" onclick="switchLang()">🎙 EN ⇄</button>
       <div id="startBtnWrap">
@@ -251,18 +230,16 @@
       <button id="exportBtn" class="btn-small hidden" onclick="exportTranscript()">↓ 전체기록</button>
     </div>
 
-    <!-- Transcript Column Headers -->
     <div class="transcript-header">
       <div class="col">ENGLISH</div>
       <div class="col">한국어</div>
     </div>
 
-    <!-- Transcript Content -->
     <div id="transcriptEmpty" class="empty-state">
       <div class="empty-icon">🎧</div>
       <div class="empty-title">녹음을 시작하면 음성을 인식합니다</div>
       <div class="empty-desc">
-        <span style="color:#60a5fa">EN</span> 영어 → 영어+한국어 ·
+        <span style="color:#60a5fa">EN</span> 영어→영어+한국어 ·
         <span style="color:#34d399">KR</span> 한국어 그대로<br>
         회의 중 ⇄ 전환 가능 · Zoom · Telegram · FaceTime
       </div>
@@ -273,7 +250,7 @@
     </div>
   </div>
 
-  <!-- Right Panel: Memo -->
+  <!-- Right: Memo -->
   <div class="right-panel">
     <div class="memo-header">
       <span class="memo-title">📝 메모</span>
@@ -288,10 +265,9 @@
       <button class="btn-small" onclick="copyAllForClaude()">📋 기록+메모 복사 (Claude용)</button>
     </div>
   </div>
-
 </div>
 
-<!-- End Meeting Panel -->
+<!-- End Panel -->
 <div id="endPanel" class="end-panel hidden">
   <div class="end-card">
     <div class="end-header">
@@ -308,9 +284,7 @@
         <span id="endEntries" class="end-stat-value"></span>
       </div>
       <div class="end-actions">
-        <button class="btn-copy-main" onclick="copyForClaude()">
-          📋 회의록 생성용 텍스트 복사
-        </button>
+        <button class="btn-copy-main" onclick="copyForClaude()">📋 회의록 생성용 텍스트 복사</button>
         <div class="end-instruction">
           <strong>회의록 만드는 법:</strong><br>
           1. 위 버튼으로 전체기록 + 메모 복사<br>
@@ -339,17 +313,56 @@ let translatingCount = 0;
 let duration = 0;
 let timerInterval = null;
 let startTime = null;
+let lastTranslateTime = 0;
+const TRANSLATE_DELAY = 1500; // 1.5초 간격
 
-// ─── Free Translation ───
-async function translateFree(text, src, tgt) {
-  try {
-    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${src}&tl=${tgt}&dt=t&q=${encodeURIComponent(text)}`;
-    const res = await fetch(url);
-    const data = await res.json();
-    return data[0].map(s => s[0]).join("");
-  } catch (err) {
-    return "⚠️ 번역 실패";
+// ─── Translation with Fallback ───
+async function translateGoogle(text, src, tgt) {
+  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${src}&tl=${tgt}&dt=t&q=${encodeURIComponent(text)}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Google ${res.status}`);
+  const data = await res.json();
+  return data[0].map(s => s[0]).join("");
+}
+
+async function translateMyMemory(text, src, tgt) {
+  const langPair = `${src}|${tgt}`;
+  const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${langPair}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`MyMemory ${res.status}`);
+  const data = await res.json();
+  if (data.responseStatus === 200 && data.responseData?.translatedText) {
+    return data.responseData.translatedText;
   }
+  throw new Error("MyMemory no result");
+}
+
+async function translateWithFallback(text, src, tgt) {
+  // 딜레이 적용
+  const now = Date.now();
+  const wait = TRANSLATE_DELAY - (now - lastTranslateTime);
+  if (wait > 0) await new Promise(r => setTimeout(r, wait));
+  lastTranslateTime = Date.now();
+
+  // Google 먼저 시도
+  try {
+    const result = await translateGoogle(text, src, tgt);
+    $("engineLabel").textContent = "Google";
+    return result;
+  } catch (e) {
+    console.warn("Google failed, trying MyMemory:", e.message);
+  }
+
+  // MyMemory 폴백
+  try {
+    const result = await translateMyMemory(text, src, tgt);
+    $("engineLabel").textContent = "MyMemory";
+    return result;
+  } catch (e) {
+    console.error("MyMemory also failed:", e.message);
+  }
+
+  return "⚠️ 번역 실패";
 }
 
 // ─── Helpers ───
@@ -368,25 +381,23 @@ function scrollCols() {
 
 // ─── Render ───
 function addEntryToDOM(entry) {
-  // English column
   const enBox = document.createElement("div");
   enBox.className = "entry-box";
   enBox.id = `en-${entry.id}`;
   if (entry.lang === "en") {
     enBox.innerHTML = `<div class="time">${entry.time}</div><div class="text en-text">${entry.text}</div>`;
   } else {
-    enBox.innerHTML = `<div class="time">${entry.time}</div><div class="text" style="color:#27303f;font-style:italic;font-size:11px;">—</div>`;
+    enBox.innerHTML = `<div class="time">${entry.time}</div><div class="text" style="color:#27303f;font-size:11px;">—</div>`;
   }
   $("colEn").appendChild(enBox);
 
-  // Korean column
   const krBox = document.createElement("div");
   krBox.className = "entry-box";
   krBox.id = `kr-${entry.id}`;
   if (entry.lang === "ko") {
     krBox.innerHTML = `<div class="time">${entry.time}</div><div class="text kr-direct">${entry.text}</div>`;
   } else {
-    krBox.innerHTML = `<div class="time">${entry.time}</div><div class="text translating">번역 중...</div>`;
+    krBox.innerHTML = `<div class="time">${entry.time}</div><div class="text translating-text">번역 중...</div>`;
   }
   $("colKr").appendChild(krBox);
   scrollCols();
@@ -395,15 +406,44 @@ function addEntryToDOM(entry) {
 function updateKrTranslation(id, koText) {
   const el = $(`kr-${id}`);
   if (el) {
-    const textEl = el.querySelector(".text");
-    textEl.className = "text kr-text";
-    textEl.textContent = koText;
+    const t = el.querySelector(".text");
+    t.className = "text kr-text";
+    t.textContent = koText;
   }
   scrollCols();
 }
 
+// ─── Translation Queue ───
+let translateQueue = [];
+let isProcessingQueue = false;
+
+async function processQueue() {
+  if (isProcessingQueue) return;
+  isProcessingQueue = true;
+
+  while (translateQueue.length > 0) {
+    const { entry } = translateQueue.shift();
+    translatingCount++;
+    $("translatingLabel").classList.remove("hidden");
+
+    try {
+      const ko = await translateWithFallback(entry.text, "en", "ko");
+      entry.ko = ko;
+      updateKrTranslation(entry.id, ko);
+    } catch (err) {
+      entry.ko = "⚠️ 번역 실패";
+      updateKrTranslation(entry.id, "⚠️ 번역 실패");
+    }
+
+    translatingCount--;
+    if (translatingCount <= 0) $("translatingLabel").classList.add("hidden");
+  }
+
+  isProcessingQueue = false;
+}
+
 // ─── Add Entry ───
-async function addEntry(text, lang) {
+function addEntry(text, lang) {
   const time = new Date().toLocaleTimeString("ko-KR", {
     hour: "2-digit", minute: "2-digit", second: "2-digit"
   });
@@ -417,18 +457,8 @@ async function addEntry(text, lang) {
   $("entryCount").textContent = `${entries.length} entries`;
 
   if (lang === "en") {
-    translatingCount++;
-    $("translatingLabel").classList.remove("hidden");
-    try {
-      const ko = await translateFree(text, "en", "ko");
-      entry.ko = ko;
-      updateKrTranslation(id, ko);
-    } catch (err) {
-      entry.ko = "⚠️ 번역 실패";
-      updateKrTranslation(id, "⚠️ 번역 실패");
-    }
-    translatingCount--;
-    if (translatingCount <= 0) $("translatingLabel").classList.add("hidden");
+    translateQueue.push({ entry });
+    processQueue();
   }
 }
 
@@ -450,8 +480,6 @@ function startRecognition(lang) {
       if (event.results[i].isFinal) finalText += event.results[i][0].transcript;
       else interimText += event.results[i][0].transcript;
     }
-
-    // Interim in EN column
     let interimEl = document.getElementById("interimEl");
     if (interimText) {
       if (!interimEl) {
@@ -463,7 +491,6 @@ function startRecognition(lang) {
       interimEl.textContent = interimText + "...";
       scrollCols();
     } else if (interimEl) { interimEl.remove(); }
-
     if (finalText.trim()) {
       if (interimEl) interimEl.remove();
       addEntry(finalText.trim(), inputLang);
@@ -489,7 +516,6 @@ function startRecording() {
     duration = Math.floor((Date.now() - startTime) / 1000);
     $("recTime").textContent = fmtTime(duration);
   }, 1000);
-
   hide("startBtnWrap");
   $("recBtnsWrap").classList.remove("hidden");
   $("recBtnsWrap").style.display = "flex";
@@ -569,9 +595,7 @@ function copyForClaude() {
   btns.forEach(b => { b.textContent = "✓ 복사됨 — Claude.ai에 붙여넣기"; setTimeout(() => b.textContent = "📋 회의록 생성용 텍스트 복사", 2500); });
 }
 
-function copyRawTranscript() {
-  navigator.clipboard.writeText(buildFullTranscript());
-}
+function copyRawTranscript() { navigator.clipboard.writeText(buildFullTranscript()); }
 
 function copyAllForClaude() {
   navigator.clipboard.writeText(buildClaudePrompt());
@@ -581,10 +605,8 @@ function copyAllForClaude() {
 }
 
 // ─── Memo ───
-function copyMemo() {
-  navigator.clipboard.writeText(getMemo());
-}
-function clearMemo() { $("memoArea").value = ""; }
+function copyMemo() { navigator.clipboard.writeText(getMemo()); }
+function clearMemo() { $("memoArea").value = ""; localStorage.removeItem("meeting_translator_memo"); }
 function saveMemo() {
   const date = new Date().toISOString().slice(0, 10);
   downloadFile(getMemo(), `메모_${date}.txt`);
@@ -594,23 +616,27 @@ function saveMemo() {
 function newMeeting() {
   hide("endPanel");
   entries = []; entryId = 0; duration = 0;
+  translateQueue = [];
   $("colEn").innerHTML = "";
   $("colKr").innerHTML = "";
   $("entryCount").textContent = "0 entries";
   $("recTime").textContent = "00:00";
+  $("engineLabel").textContent = "";
   hide("exportBtn");
   hide("transcriptArea");
   show("transcriptEmpty");
 }
 
-// ─── Auto-save memo to localStorage ───
+// ─── Auto-save memo ───
 const MEMO_KEY = "meeting_translator_memo";
 window.addEventListener("load", () => {
   const saved = localStorage.getItem(MEMO_KEY);
   if (saved) $("memoArea").value = saved;
 });
-$("memoArea")?.addEventListener("input", () => {
-  localStorage.setItem(MEMO_KEY, $("memoArea").value);
+document.addEventListener("DOMContentLoaded", () => {
+  $("memoArea")?.addEventListener("input", () => {
+    localStorage.setItem(MEMO_KEY, $("memoArea").value);
+  });
 });
 </script>
 
